@@ -10,8 +10,8 @@ developers in ThisBuild := List(
   Developer("gmethvin", "Greg Methvin", "greg@methvin.net", new URL("https://github.com/gmethvin"))
 )
 
-val PlayVersion = "2.7.3"
-scalaVersion in ThisBuild := "2.13.0"
+val PlayVersion = "2.8.0-RC5"
+scalaVersion in ThisBuild := "2.13.1"
 crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8", scalaVersion.value)
 
 lazy val `autoconfig-macros` = (project in file("macros"))
@@ -35,12 +35,8 @@ lazy val root = (project in file("."))
   .aggregate(`autoconfig-macros`)
 
 publishMavenStyle in ThisBuild := true
-publishTo in ThisBuild := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging
-)
+
+publishTo in ThisBuild := Some(Resolver.file("file", new File(sys.props.getOrElse("publishTo", ""))))
 
 import ReleaseTransformations._
 releaseCrossBuild := true
